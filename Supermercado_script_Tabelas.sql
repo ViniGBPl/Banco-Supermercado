@@ -3,32 +3,45 @@ CREATE DATABASE Supermercado;
 USE Supermercado;
 
 
+-- Criação da tabela MATRIZ
+CREATE TABLE MATRIZ (
+    CNPJ VARCHAR(20) NOT NULL UNIQUE PRIMARY KEY,
+    Telefone VARCHAR(12) NOT NULL,
+    nome_fantasia VARCHAR(50) NOT NULL,
+    tipo VARCHAR(50) NOT NULL
+);
 
+-- Criação da tabela FILIAL
+CREATE TABLE FILIAL (
+    ID INT NOT NULL UNIQUE PRIMARY KEY,
+    CPF_GERENTE VARCHAR(11),
+    Endereco VARCHAR(200),
+    Qtde_fun INT,
+    Cnpj_Matriz VARCHAR(20),
+    FOREIGN KEY (Cnpj_Matriz) REFERENCES MATRIZ(CNPJ)
+);
 
-CREATE TABLE Setor (
-    IdSetor INT AUTO_INCREMENT PRIMARY KEY,
-    NomeSetor VARCHAR(50) NOT NULL
+-- Criação da tabela FUNCIONARIO
+CREATE TABLE FUNCIONARIO (
+    CPF CHAR(11) NOT NULL UNIQUE PRIMARY KEY,
+    id_Filial INT,
+    Data_admissao DATE,
+    Sexo CHAR(1) CHECK (Sexo IN ('M', 'F')),
+    Estado_Civil VARCHAR(20),
+    Login VARCHAR(100) NOT NULL,
+    Senha VARCHAR(100) NOT NULL,
+    RG CHAR(10) NOT NULL,
+    Nome VARCHAR(100) NOT NULL,
+    Situação BOOLEAN NOT NULL,
+    Endereco VARCHAR(2000),
+    FOREIGN KEY (id_Filial) REFERENCES FILIAL(ID)
 );
 
 
-CREATE TABLE Produto (
-    IdProduto INT AUTO_INCREMENT PRIMARY KEY,
-    NomeProduto VARCHAR(100) NOT NULL,
-    Categoria VARCHAR(50),
-    Preco DECIMAL(10, 2) NOT NULL CHECK (Preco >= 0),
-    QuantidadeEstoque INT NOT NULL CHECK (QuantidadeEstoque >= 0),
-    DataValidade DATE,
-    IdFornecedor INT,
-    IdSetor INT,
-    FOREIGN KEY (IdFornecedor) REFERENCES Fornecedor(IdFornecedor),
-    FOREIGN KEY (IdSetor) REFERENCES Setor(IdSetor)
-);
-
-## O QUE FOI FEITO COM BASE NO MODDELO LOGICO RELACIONAL
 
 
 
-CREATE TABLE FORNCEDOR (
+CREATE TABLE FORNECEDOR (
     Cod INT AUTO_INCREMENT PRIMARY KEY, ##  mudei IdFornecedor para Cod
     NomeFornecedor VARCHAR(100) NOT NULL,
     CNPJ CHAR(14) NOT NULL UNIQUE,
@@ -42,20 +55,7 @@ CREATE TABLE FORNCEDOR (
 );
 
 
-CREATE TABLE FUNCIONARIO (
-	CPF CHAR(11) NOT NULL UNIQUE PRIMARY KEY,
-    id_Filial INT,
-    Data_admissao DATE,
-    Sexo CHAR(1) CHECK (Sexo IN ('M', 'F')), # coloquei assim para garantir que só seja M ou F
-	Estado_Civil VARCHAR(20), 
-    Login VARCHAR (100) NOT NULL,
-	Senha VARCHAR (100) NOT NULL,
-	RG CHAR(10) NOT NULL, #Inicialmente coloquei assim
-    Nome VARCHAR (100) NOT NULL,
-    Situação BOOLEAN NOT NULL, #considerei que seria um TRUE para ativo e FALSE para inativo 
-    Endereco VARCHAR(2000),
-    FOREIGN KEY(id_Filial) REFERENCES FILIAL(ID)
-);
+
 
 CREATE TABLE GERENTE(
 	CPF CHAR(11) NOT NULL UNIQUE PRIMARY KEY,
@@ -70,40 +70,31 @@ CREATE TABLE ENTREGADOR(
 
 
 CREATE TABLE CLIENTE (
-    IdCliente INT AUTO_INCREMENT PRIMARY KEY,
-    ##NomeCliente VARCHAR(100) NOT NULL, o seguite seria para o atributo nome, já que ele é composto 
+    CPF CHAR(11) NOT NULL PRIMARY KEY, -- Chave primária
     P_nome VARCHAR(100) NOT NULL,
     M_nome VARCHAR(100),
-    U_nome VARCHAR(100), 
-    #Finalização do nome
-    
-    CPF CHAR(11) NOT NULL UNIQUE PRIMARY KEY,
+    U_nome VARCHAR(100),
     RG VARCHAR(10) NOT NULL,
     Telefone VARCHAR(15),
-    # o que seria o endereço
-    CEP char(8),
+    CEP CHAR(8),
     Numero VARCHAR(5),
     Cidade VARCHAR(20),
-	Descricao VARCHAR(100),
-    # Terminio do endereço
-    
-    DataNascimento DATE not null,
-    Email VARCHAR(50) ,
-    DataCadastro DATE not null,
-    Senha VARCHAR(200), 
-	Vl_credito DECIMAL(10,2),
-	id_filial INT,
-    
-    FOREIGN KEY (id_filial) REFERENCES Filial(id)
+    Descricao VARCHAR(100),
+    DataNascimento DATE NOT NULL,
+    Email VARCHAR(50),
+    DataCadastro DATE NOT NULL,
+    Senha VARCHAR(200),
+    Vl_credito DECIMAL(10,2),
+    id_filial INT,
+    FOREIGN KEY (id_filial) REFERENCES FILIAL(ID)
 );
 
-CREATE TABLE ENTREGA(
-	Seq INT AUTO_INCREMENT PRIMARY KEY UNIQUE, #Usei o chat para esse atributo Seq, talvez seja necessário mudar 
-	CPF_Entregador CHAR (11) NOT NULL PRIMARY KEY,
-	Data_Entrega DATE NOT NULL,
-	Hora_Estimada TIME NOT NULL, 
-        
-	FOREIGN KEY (CPF_Entregador) REFERENCES ENTREGADOR (CPF)
+CREATE TABLE ENTREGA (
+    Seq INT AUTO_INCREMENT PRIMARY KEY UNIQUE, -- Chave primária
+    CPF_Entregador CHAR(11) NOT NULL, -- Chave estrangeira para ENTREGADOR
+    Data_Entrega DATE NOT NULL, -- Data da entrega
+    Hora_Estimada TIME NOT NULL, -- Hora estimada da entrega
+    FOREIGN KEY (CPF_Entregador) REFERENCES ENTREGADOR(CPF) -- Chave estrangeira
 );
 
 CREATE TABLE COMPRA(
@@ -119,25 +110,49 @@ CREATE TABLE COMPRA(
     
 );
 
+CREATE TABLE UNIDADE_PROD (
+    Cod INT AUTO_INCREMENT PRIMARY KEY, -- Chave primária
+    Descricao VARCHAR(200),
+    Sigla VARCHAR(4)
+);
 
-CREATE TABLE MATRIZ (
-	CNPJ VARCHAR(20) NOT NULL UNIQUE PRIMARY KEY, ##MUDAR O numero maáximo de caracteres do CNPJ
-	Telefone VARCHAR(12) not null,
-	nome_fantasia VARCHAR(50) NOT NULL,
-	tipo VARCHAR(50) NOT null
+CREATE TABLE MARCA_PROD (
+    Cod INT AUTO_INCREMENT PRIMARY KEY, -- Chave primária
+    Descricao VARCHAR(200)
+);
+
+CREATE TABLE CATEGORIA(
+	Cod INT AUTO_INCREMENT PRIMARY KEY,
+    Descricao VARCHAR(200)
+    
+);
+
+CREATE TABLE SUBCATEGORIA (
+    Cod INT AUTO_INCREMENT PRIMARY KEY, -- Chave primária
+    Cod_Categoria INT,
+    Descricao VARCHAR(200),
+    FOREIGN KEY (Cod_Categoria) REFERENCES CATEGORIA(Cod)
 );
 
 
-CREATE TABLE FILIAL (
-	ID INT NOT NULL UNIQUE PRIMARY KEY ,
-	CPF_GERENTE VARCHAR(11),
-	Endereco VARCHAR(200),
-	Qtde_fun INT,
-	Cnpj_Matriz VARCHAR(20),
 
-	FOREIGN KEY (Cnpj_Matriz) REFERENCES MATRIZ(CNPJ),
-	FOREIGN KEY (CPF_GERENTE) REFERENCES GERENTE(CPF)
-
+CREATE TABLE PRODUTO_REF (
+    Cod INT AUTO_INCREMENT PRIMARY KEY, -- Chave primária
+    Id_Unidade INT NOT NULL,
+    Id_Marca INT NOT NULL,
+    Id_SubCateg INT NOT NULL,
+    cod_Fornecedor INT NOT NULL,
+    Preco_por_tabela DECIMAL(10,2),
+    Cod_barra VARCHAR(20) UNIQUE,
+    Freq_pedido INT NOT NULL,
+    Qtd_estoque INT,
+    Descricao VARCHAR(200),
+    Qtd_min INT,
+    Preco_ult_compra DECIMAL(10,2),
+    FOREIGN KEY (Id_Unidade) REFERENCES UNIDADE_PROD(Cod),
+    FOREIGN KEY (Id_Marca) REFERENCES MARCA_PROD(Cod),
+    FOREIGN KEY (Id_SubCateg) REFERENCES SUBCATEGORIA(Cod),
+    FOREIGN KEY (cod_Fornecedor) REFERENCES FORNECEDOR(Cod)
 );
 
 CREATE TABLE ESTOQUE (
@@ -150,90 +165,79 @@ CREATE TABLE ESTOQUE (
 
 );
 
-CREATE TABLE ITEM_ESTOQUE(
-	Id_Estoque INT PRIMARY KEY NOT NULL,
-	Cod_Prod INT PRIMARY KEY NOT NULL,
+CREATE TABLE ITEM_ESTOQUE (
+    Id_Estoque INT NOT NULL,
+    Cod_Prod INT NOT NULL,
     Data_Validade DATE,
     Data_Fabricacao DATE,
     Data_Entrada DATE,
     Valor_Compra DECIMAL(10,2),
-    qtd_atual INT, #Tem que ver a logica para fazer a relaçao com a quantidade atual 
+    qtd_atual INT,
     qtd_min INT,
-	
-    FOREIGN KEY(Id_Estoque) REFERENCES ESTOQUE(id_estoque),
-    FOREIGN KEY(Cod_Prod) REFERENCES PRODUTO_REF(Cod)
-
+    
+    PRIMARY KEY (Id_Estoque, Cod_Prod), -- Chave primária composta
+    FOREIGN KEY (Id_Estoque) REFERENCES ESTOQUE(id_estoque),
+    FOREIGN KEY (Cod_Prod) REFERENCES PRODUTO_REF(Cod)
 );
 
 CREATE TABLE PERDA (
-    id INT AUTO_INCREMENT PRIMARY KEY,  
-    data_Perda DATE NOT NULL,  
-    Quantidade_perdida INT NOT NULL,  
-    Motivo VARCHAR(255),  
-    Id_Estoque INT NOT NULL,  
-    Cod_Prod INT NOT NULL,  
-    
-
-    FOREIGN KEY (Id_Estoque, Cod_Prod) REFERENCES ItemEstoque(Id_Estoque, Cod_Prod) 
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data_Perda DATE NOT NULL,
+    Quantidade_perdida INT NOT NULL,
+    Motivo VARCHAR(255),
+    Id_Estoque INT NOT NULL,
+    Cod_Prod INT NOT NULL,
+    FOREIGN KEY (Id_Estoque, Cod_Prod) REFERENCES ITEM_ESTOQUE(Id_Estoque, Cod_Prod)
 );
 
-CREATE TABLE UNIDADE_PROD(
-	Cod INT AUTO_INCREMENT PRIMARY KEY ,
-    Descricao VARCHAR(200),
-    Sigla VARCHAR(4) #Talvez tenha que mudar essa parte 
-);
 
-CREATE TABLE MARCA_PROD(
-	Cod INT AUTO_INCREMENT PRIMARY KEY,
-    Descricao VARCHAR(200)
-    
-);
 
-CREATE TABLE CATEGORIA(
-	Cod INT AUTO_INCREMENT PRIMARY KEY,
-    Descricao VARCHAR(200)
-    
-);
-
-CREATE TABLE SUBCATEGORIA(
-	Cod INT AUTO_INCREMENT PRIMARY KEY,
-    Cod_Categoria INT,
-    Descricao VARCHAR(200),
-    
-    FOREIGN KEY(Cod_Categoria) REFERENCES CATEGORIA (Cod)
-    
-);
-
-CREATE TABLE PRODUTO_REF( 
-	Cod INT AUTO_INCREMENT PRIMARY KEY ,
-    Id_Unidade INT NOT NULL,
-    Id_Marca INT NOT NULL,
-    Id_SubCateg INT NOT NULL,
-    cod_Fornecedor INT NOT NULL,
-    Preco_por_tabela DECIMAL(10,2) , 
-	Cod_barra VARCHAR(20) UNIQUE, ## A quantidade de digitos foi colocado de acordo com o chatgpt, talvez tenha que modificar  
-    Freq_pedido INT NOT NULL ,
-    Qtd_estoque INT , ## colocar a regra de negocio 	
-    Descricao VARCHAR(200),
-    Qtd_min INT , ## Colocar a regra de negocio 
-    Preco_ult_compra DECIMAL (10,2),
-    
-	FOREIGN KEY (Id_Unidade) REFERENCES UNIDADE_PROD ( Cod ), ## mudei o UNIDADE para UNIDADE_PROD
-	FOREIGN KEY (Id_Marca) REFERENCES MARCA_PROD ( Cod ), ## mudei o MARCA para MARCA_PROD
-	FOREIGN KEY (Id_SubCateg) REFERENCES SUBCATEGORIA ( Cod ),
-	FOREIGN KEY (cod_fornecedor) REFERENCES FORNECEDOR (Cod)
-);
-
-CREATE TABLE ITEMCOMPRA ( 
-	Cod_compra INT PRIMARY KEY,
-    Cod_produto INT PRIMARY KEY,
+CREATE TABLE ITEMCOMPRA (
+    Cod_compra INT,
+    Cod_produto INT,
     Quantidade INT NOT NULL,
     Valor_desconto_item DECIMAL(10,2),
     Valor_unitario DECIMAL(10,2),
     
-	FOREIGN KEY( Cod_compra) REFERENCES COMPRA ( Cod ),
-	FOREIGN KEY( Cod_produto) REFERENCES PRODUTO_REF ( Cod ) #mudei de PRODUTOREF para PRODUTO_REF
+    PRIMARY KEY (Cod_compra, Cod_produto), -- Chave primária composta
+    FOREIGN KEY (Cod_compra) REFERENCES COMPRA(Cod),
+    FOREIGN KEY (Cod_produto) REFERENCES PRODUTO_REF(Cod)
+);
 
+CREATE TABLE TIPO_PAGAMENTO (
+	cod INT PRIMARY KEY, # ESSE TALVEZ SEJA MELHOR USAR UM ENUM PARA DEFINIR OS CODIGO , LOGO DEVE SER MUDADO O ESSE TIPO INT 
+	descricao VARCHAR(200)
+);
+
+
+
+
+
+-- Criar a tabela PEDIDO_FORNECEDOR
+CREATE TABLE PEDIDO_FORNECEDOR (
+    Cod INT AUTO_INCREMENT PRIMARY KEY,
+    CPF_gerente CHAR(11),
+    Total_desconto DECIMAL(10,2),
+    Valor_total_IPI DECIMAL(10,2),
+    Valor_total DECIMAL(10,2),
+    Data_Pedido_Forncedor DATE,
+    Status_Pedido_Forncedor BOOLEAN,
+    Valor_frete DECIMAL(10,2),
+    FOREIGN KEY (CPF_gerente) REFERENCES GERENTE(CPF)
+);
+
+-- Criar a tabela FATURA
+CREATE TABLE FATURA (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Chave primária
+    cod_Pedido_Fornecedor INT NOT NULL, -- Chave estrangeira para PEDIDO_FORNECEDOR
+    dt_venc DATE, -- Data de vencimento da fatura
+    vl_pago_atual DECIMAL(10,2), -- Valor pago até o momento
+    vl_total_final DECIMAL(10,2), -- Valor total da fatura
+    dt_emissao DATE, -- Data de emissão da fatura
+    status_fatura BOOLEAN, -- Status da fatura (paga/não paga)
+    dt_paga DATE, -- Data de pagamento da fatura
+    multa DECIMAL(10,2), -- Valor da multa (se houver)
+    FOREIGN KEY (cod_Pedido_Fornecedor) REFERENCES PEDIDO_FORNECEDOR(Cod) -- Chave estrangeira
 );
 
 CREATE TABLE PAGAMENTO ( 
@@ -250,24 +254,6 @@ CREATE TABLE PAGAMENTO (
 	FOREIGN KEY(cod_tipo_pagamento) REFERENCES TIPO_PAGAMENTO (cod)
 );
 
-CREATE TABLE TIPO_PAGAMENTO (
-	cod_tp_pag INT PRIMARY KEY, # ESSE TALVEZ SEJA MELHOR USAR UM ENUM PARA DEFINIR OS CODIGO , LOGO DEVE SER MUDADO O ESSE TIPO INT 
-	descricao VARCHAR(200)
-);
-
-CREATE TABLE FATURA ( 
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    cod_Pedido_Fornecedor INT NOT NULL,
-    dt_venc DATE, 
-    vl_pago_atual DECIMAL(10,2),
-    vl_total_final DECIMAL(10,2),
-    dt_emissao DATE ,
-    status_fatura BOOLEAN , # Mudei status para status_fatura , talvez seja necessário mudar o tipo BOOLEAN para o de ENUM
-	dt_paga DATE,
-    multa DECIMAL(10,2), 
-    
-	FOREIGN KEY(cod_Pedido_Fornecedor) REFERENCES PEDIDO_FORNECEDOR (Cod) # Mudei PEDIDOFORNECEDOR  para PEDIDO_FORNECEDOR 
-);
 
 CREATE TABLE NOTA_FISCAL ( 
 	NFE VARCHAR(50) PRIMARY KEY,  
@@ -298,101 +284,22 @@ CREATE TABLE NOTA_FISCAL_COMPRA(
 	FOREIGN KEY (cod_pagamento) REFERENCES PAGAMENTO (Cod)
 );
 
-CREATE TABLE PEDIDO_FORNECEDOR ( 
-	Cod INT AUTO_INCREMENT PRIMARY KEY,
-    CPF_gerente CHAR(11),
-    Total_desconto DECIMAL(10,2),
-    Valor_total_IPI DECIMAL(10,2) , # VER SE PRECISA DE REGRA DE NEGÓCIO
-    Valor_total DECIMAL (10,2),
-    Data_Pedido_Forncedor DATE , 
-	Status_Pedido_Forncedor BOOLEAN , # Ver se seria melhor colocar como do TIPO ENUM
-    Valor_frete DECIMAL(10,2), #PRECISA COLOCAR A REGRA DE NEGÓCIO
-    
-	FOREIGN KEY (CPF_gerente) REFERENCES GERENTE (CPF) 
-    );
-
 
 CREATE TABLE ITEM_PEDIDO (
-	Cod_produto_ref INT PRIMARY KEY ,
-    Cod_pedido_fornecedor INT PRIMARY KEY,
-    Quantidade INT NOT NULL ,
-    Preco_unitario DECIMAL(10,2) NOT NULL ,#TALVEZ COLOCAR REGRA DE NEGOCIOS
-
-	FOREIGN KEY (cod_produto_ref ) REFERENCES PRODUTO_REF (Cod),#MUDEI DE PRODUTOREF PARA PRODUTO_REF
-	FOREIGN KEY(cod_pedido_fornecedor) REFERENCES PEDIDO_FORNECEDOR ( Cod) #MUDEIO DE PEDIDOFORNECEDOR PARA PEDIDO_FORNECEDOR
+    Cod_produto_ref INT,
+    Cod_pedido_fornecedor INT,
+    Quantidade INT NOT NULL,
+    Preco_unitario DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (Cod_produto_ref, Cod_pedido_fornecedor), -- Chave primária composta
+    FOREIGN KEY (Cod_produto_ref) REFERENCES PRODUTO_REF(Cod),
+    FOREIGN KEY (Cod_pedido_fornecedor) REFERENCES PEDIDO_FORNECEDOR(Cod)
 );
 
 #O QUE FOI FEITO COM BASE NO MODELO LOGICO RELACIONAL 
 
-CREATE TABLE OperadorCaixa (
-    IdOperador INT AUTO_INCREMENT PRIMARY KEY,
-    NomeOperador VARCHAR(100) NOT NULL,
-    Turno ENUM('Manhã', 'Tarde', 'Noite') NOT NULL,
-    IdSetor INT,
-    FOREIGN KEY (IdSetor) REFERENCES Setor(IdSetor)
-);
 
 
-CREATE TABLE Venda (
-    IdVenda INT AUTO_INCREMENT PRIMARY KEY,
-    DataVenda DATE NOT NULL,
-    ValorTotal DECIMAL(10, 2) NOT NULL CHECK (ValorTotal >= 0),
-    IdCliente INT,
-    IdOperador INT,
-    FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente),
-    FOREIGN KEY (IdOperador) REFERENCES OperadorCaixa(IdOperador)
-);
 
-
-CREATE TABLE VendaProduto (
-    IdVenda INT,
-    IdProduto INT,
-    Quantidade INT NOT NULL CHECK (Quantidade > 0),
-    PrecoUnitario DECIMAL(10, 2) NOT NULL CHECK (PrecoUnitario >= 0),
-    ValorTotal DECIMAL(10,2) GENERATED ALWAYS AS (Quantidade * PrecoUnitario) STORED,
-    PRIMARY KEY (IdVenda, IdProduto),
-    FOREIGN KEY (IdVenda) REFERENCES Venda(IdVenda) ON DELETE CASCADE,
-    FOREIGN KEY (IdProduto) REFERENCES Produto(IdProduto) ON DELETE CASCADE
-);
-
-
-CREATE TABLE Encomenda (
-    IdEncomenda INT AUTO_INCREMENT PRIMARY KEY,
-    DataEncomenda DATE NOT NULL,
-    DataEntrega DATE CHECK (DataEntrega >= DataEncomenda),
-    Status ENUM('Pendente', 'Em andamento', 'Entregue', 'Cancelada') NOT NULL DEFAULT 'Pendente',
-    IdCliente INT,
-    FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente)
-);
-
-
-CREATE TABLE Promocao (
-    IdPromocao INT AUTO_INCREMENT PRIMARY KEY,
-    NomePromocao VARCHAR(100) NOT NULL,
-    Desconto DECIMAL(5, 2) NOT NULL CHECK (Desconto BETWEEN 0 AND 100),
-    DataInicio DATE NOT NULL,
-    DataFim DATE NOT NULL CHECK (DataFim >= DataInicio)
-);
-
-
-CREATE TABLE ProdutoPromocao (
-    IdPromocao INT,
-    IdProduto INT,
-    PRIMARY KEY (IdPromocao, IdProduto),
-    FOREIGN KEY (IdPromocao) REFERENCES Promocao(IdPromocao) ON DELETE CASCADE,
-    FOREIGN KEY (IdProduto) REFERENCES Produto(IdProduto) ON DELETE CASCADE
-);
-
-
-CREATE TABLE MovimentacaoEstoque (
-    IdMovimentacao INT AUTO_INCREMENT PRIMARY KEY,
-    TipoMovimentacao ENUM('Entrada', 'Saída') NOT NULL,
-    DataMovimentacao DATE NOT NULL,
-    Quantidade INT NOT NULL CHECK (Quantidade > 0),
-    Origem VARCHAR(255),
-    IdProduto INT,
-    FOREIGN KEY (IdProduto) REFERENCES Produto(IdProduto)
-);
 DELIMITER //
 
 CREATE PROCEDURE AtualizarEstoqueAposVenda(
@@ -450,4 +357,3 @@ BEGIN
     VALUES (NomeProduto, Categoria, Preco, QuantidadeEstoque, DataValidade, IdFornecedor, IdSetor);
 END //
 
-DELIMITER ;
