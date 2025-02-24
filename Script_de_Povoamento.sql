@@ -43,10 +43,10 @@ VALUES
 -- Inserir mais dados na tabela FORNECEDOR
 INSERT INTO FORNECEDOR (NomeFornecedor, CNPJ, Telefone, Ativo, Rua, Bairro, CEP, Estado)
 VALUES 
-('Fornecedor A', '11111111000100', '1199999999', TRUE, 'Rua dos Fornecedores, 100', 'Centro', '12345678', 'SP'),
+('Fornecedor A', '11111111000100', '1199999909', TRUE, 'Rua dos Fornecedores, 100', 'Centro', '12345678', 'SP'),
 ('Fornecedor B', '22222222000100', '1188888888', TRUE, 'Avenida das Indústrias, 200', 'Industrial', '87654321', 'RJ'),
-('Fornecedor C', '33333333000100', '1177777777', TRUE, 'Rua das Fábricas, 300', 'Industrial', '54321678', 'MG'),
-('Fornecedor D', '44444444000100', '1166666666', TRUE, 'Avenida dos Produtos, 400', 'Comercial', '87651234', 'RS');
+('Fornecedor C', '33333333000100', '1177777707', TRUE, 'Rua das Fábricas, 300', 'Industrial', '54321678', 'MG'),
+('Fornecedor D', '44444444000100', '1166667606', TRUE, 'Avenida dos Produtos, 400', 'Comercial', '87651234', 'RS');
 
 -- Inserir mais dados na tabela CLIENTE
 INSERT INTO CLIENTE (CPF, P_nome, M_nome, U_nome, RG, Telefone, CEP, Numero, Cidade, Descricao, DataNascimento, Email, DataCadastro, Senha, Vl_credito, id_filial)
@@ -54,7 +54,8 @@ VALUES
 ('11111111111', 'Carlos', 'Alberto', 'Silva', '1111111111', '1199999999', '12345678', '123', 'São Paulo', 'Casa 1', '1990-01-01', 'carlos.silva@email.com', '2023-01-01', 'senha123', 100.00, 1),
 ('22222222222', 'Ana', 'Maria', 'Santos', '2222222222', '1188888888', '87654321', '456', 'Rio de Janeiro', 'Apartamento 2', '1995-05-05', 'ana.santos@email.com', '2023-02-01', 'senha456', 200.00, 2),
 ('33333333333', 'Pedro', 'Henrique', 'Oliveira', '3333333333', '1177777777', '54321678', '789', 'Belo Horizonte', 'Casa 3', '1985-10-10', 'pedro.oliveira@email.com', '2023-03-01', 'senha789', 150.00, 3),
-('44444444444', 'Juliana', 'Cristina', 'Costa', '4444444444', '1166666666', '87651234', '101', 'Porto Alegre', 'Apartamento 4', '1992-12-12', 'juliana.costa@email.com', '2023-04-01', 'senha101', 300.00, 4);
+('44444444444', 'Juliana', 'Cristina', 'Costa', '4444444444', '1166666666', '87651234', '101', 'Porto Alegre', 'Apartamento 4', '1992-12-12', 'juliana.costa@email.com', '2023-04-01', 'senha101', 300.00, 4),
+('66666666666', 'Maria', 'Fernanda', 'Silva', '6666666666', '1166666667', '12345678', '303', 'São Paulo', 'Casa 6', '1995-09-20', 'maria.silva@email.com', '2023-10-06', 'senha666', 600.00, 2);
 
 -- Inserir mais dados na tabela ENTREGA
 INSERT INTO ENTREGA (CPF_Entregador, Data_Entrega, Hora_Estimada)
