@@ -1,6 +1,6 @@
 
-CREATE DATABASE Supermercado;
-USE Supermercado;
+CREATE DATABASE supermercado;
+USE supermercado;
 
 
 -- Criação da tabela MATRIZ
@@ -46,12 +46,12 @@ CREATE TABLE FORNECEDOR (
     NomeFornecedor VARCHAR(100) NOT NULL,
     CNPJ CHAR(14) NOT NULL UNIQUE,
     Telefone VARCHAR(15), #Esse está representado só no modelo ER
-    Ativo BOOLEAN, # Para saber se o fornecedor está ativo 
+    Ativo BOOLEAN, # Para saber se o fornecedor está ativo
     Rua VARCHAR(100),
 	Bairro VARCHAR(100) ,
     CEP VARCHAR(20) , # Trocar por um do tipo char
     Estado VARCHAR(20)
-    
+
 );
 
 
@@ -102,12 +102,12 @@ CREATE TABLE COMPRA(
     Seq_Entrega INT NOT NULL,
     Valor_Total DECIMAL(10,2) NOT NULL,
 	Data_Compra DATE NOT NULL,
-    Valor_Total_Desconto DECIMAL(10,2), # Talvez tenha que fazer um procedure ou um trigh para calcular esse desconto 
-    Status_Compra ENUM('Pago', 'Aguardando', 'Cancelada'), # tem que definir quais seriam os tipos ENUM, mas também acho que poderia usar um BOOLEAN 
+    Valor_Total_Desconto DECIMAL(10,2), # Talvez tenha que fazer um procedure ou um trigh para calcular esse desconto
+    Status_Compra ENUM('Pago', 'Aguardando', 'Cancelada'), # tem que definir quais seriam os tipos ENUM, mas também acho que poderia usar um BOOLEAN
     CPF_Cliente CHAR(11) NOT NULL,
-    
+
     FOREIGN KEY (CPF_Cliente) REFERENCES CLIENTE(CPF)
-    
+
 );
 
 CREATE TABLE UNIDADE_PROD (
@@ -124,7 +124,7 @@ CREATE TABLE MARCA_PROD (
 CREATE TABLE CATEGORIA(
 	Cod INT AUTO_INCREMENT PRIMARY KEY,
     Descricao VARCHAR(200)
-    
+
 );
 
 CREATE TABLE SUBCATEGORIA (
@@ -156,11 +156,11 @@ CREATE TABLE PRODUTO_REF (
 );
 
 CREATE TABLE ESTOQUE (
-	id_estoque INT AUTO_INCREMENT PRIMARY KEY NOT NULL UNIQUE,# no modelo que o professor passou, está mostrando tudo junto 
+	id_estoque INT AUTO_INCREMENT PRIMARY KEY NOT NULL UNIQUE,# no modelo que o professor passou, está mostrando tudo junto
     id_Filial INT,
     descricao VARCHAR(250),
     dt_ult_Entrada DATE NOT NULL,
-    
+
     FOREIGN KEY(id_Filial) REFERENCES FILIAL(ID)
 
 );
@@ -174,7 +174,7 @@ CREATE TABLE ITEM_ESTOQUE (
     Valor_Compra DECIMAL(10,2),
     qtd_atual INT,
     qtd_min INT,
-    
+
     PRIMARY KEY (Id_Estoque, Cod_Prod), -- Chave primária composta
     FOREIGN KEY (Id_Estoque) REFERENCES ESTOQUE(id_estoque),
     FOREIGN KEY (Cod_Prod) REFERENCES PRODUTO_REF(Cod)
@@ -198,14 +198,14 @@ CREATE TABLE ITEMCOMPRA (
     Quantidade INT NOT NULL,
     Valor_desconto_item DECIMAL(10,2),
     Valor_unitario DECIMAL(10,2),
-    
+
     PRIMARY KEY (Cod_compra, Cod_produto), -- Chave primária composta
     FOREIGN KEY (Cod_compra) REFERENCES COMPRA(Cod),
     FOREIGN KEY (Cod_produto) REFERENCES PRODUTO_REF(Cod)
 );
 
 CREATE TABLE TIPO_PAGAMENTO (
-	cod INT PRIMARY KEY, # ESSE TALVEZ SEJA MELHOR USAR UM ENUM PARA DEFINIR OS CODIGO , LOGO DEVE SER MUDADO O ESSE TIPO INT 
+	cod INT PRIMARY KEY, # ESSE TALVEZ SEJA MELHOR USAR UM ENUM PARA DEFINIR OS CODIGO , LOGO DEVE SER MUDADO O ESSE TIPO INT
 	descricao VARCHAR(200)
 );
 
@@ -240,46 +240,46 @@ CREATE TABLE FATURA (
     FOREIGN KEY (cod_Pedido_Fornecedor) REFERENCES PEDIDO_FORNECEDOR(Cod) -- Chave estrangeira
 );
 
-CREATE TABLE PAGAMENTO ( 
+CREATE TABLE PAGAMENTO (
 	Cod INT AUTO_INCREMENT PRIMARY KEY,
     id_fatura INT NOT NULL,
     cod_compra INT NOT NULL,
     cod_tipo_pagamento INT NOT NULL,
     vl_pago DECIMAL(10,2) NOT NULL,
-    data_Pagamento DATE , # Mude de data para data_Pagamento 
+    data_Pagamento DATE , # Mude de data para data_Pagamento
     status_Pagamento BOOLEAN , #Mudei de status para status_pagamento, talvez seja necessário usar o tipo ENUM nesse
-    
+
 	FOREIGN KEY(id_fatura) REFERENCES FATURA (id),
 	FOREIGN KEY(cod_compra) REFERENCES COMPRA (cod),
 	FOREIGN KEY(cod_tipo_pagamento) REFERENCES TIPO_PAGAMENTO (cod)
 );
 
 
-CREATE TABLE NOTA_FISCAL ( 
-	NFE VARCHAR(50) PRIMARY KEY,  
-    ICMS DECIMAL(10,2) NOT NULL,  
-    
+CREATE TABLE NOTA_FISCAL (
+	NFE VARCHAR(50) PRIMARY KEY,
+    ICMS DECIMAL(10,2) NOT NULL,
+
     #nesse de baixo, usei as regras de negocio passadas pelo chat, talvez seja necessário validar.
     Valor_Total DECIMAL(10,2) NOT NULL CHECK (Valor_Total >= 0),
-    Valor_Total_Desconto DECIMAL(10,2) CHECK (Valor_Total_Desconto >= 0), 
-    data_NotaFical DATE NOT NULL,  
-    Valor_Frete DECIMAL(10,2) CHECK (Valor_Frete >= 0)  
+    Valor_Total_Desconto DECIMAL(10,2) CHECK (Valor_Total_Desconto >= 0),
+    data_NotaFical DATE NOT NULL,
+    Valor_Frete DECIMAL(10,2) CHECK (Valor_Frete >= 0)
 );
 
-CREATE TABLE NOTA_FISCAL_FORNECEDOR( 
+CREATE TABLE NOTA_FISCAL_FORNECEDOR(
 	NFE VARCHAR(50) PRIMARY KEY,
     cod_pagamento INT NOT NULL,
-    IPI DECIMAL(10,2) NOT NULL CHECK (IPI >= 0), #REGRA DE NEGOCIO DO CHAT 
-    
+    IPI DECIMAL(10,2) NOT NULL CHECK (IPI >= 0), #REGRA DE NEGOCIO DO CHAT
+
 	FOREIGN KEY (NFE) REFERENCES NOTA_FISCAL (NFE), # MUDEI DE Nota fiscal PARA NOTA_FISCAL
-	FOREIGN KEY (cod_pagamento ) REFERENCES PAGAMENTO (cod ) 
-    
+	FOREIGN KEY (cod_pagamento ) REFERENCES PAGAMENTO (cod )
+
 );
 
-CREATE TABLE NOTA_FISCAL_COMPRA( 
+CREATE TABLE NOTA_FISCAL_COMPRA(
 	NFE VARCHAR(50) PRIMARY KEY NOT NULL,
-	cod_pagamento INT NOT NULL,  
-    
+	cod_pagamento INT NOT NULL,
+
 	FOREIGN KEY ( NFE) REFERENCES NOTA_FISCAL (NFE), #MUDEI DE Nota fiscal para NOTA_FISCAL
 	FOREIGN KEY (cod_pagamento) REFERENCES PAGAMENTO (Cod)
 );
@@ -295,7 +295,7 @@ CREATE TABLE ITEM_PEDIDO (
     FOREIGN KEY (Cod_pedido_fornecedor) REFERENCES PEDIDO_FORNECEDOR(Cod)
 );
 
-#O QUE FOI FEITO COM BASE NO MODELO LOGICO RELACIONAL 
+#O QUE FOI FEITO COM BASE NO MODELO LOGICO RELACIONAL
 
 
 
