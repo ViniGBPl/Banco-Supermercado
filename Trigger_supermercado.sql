@@ -1,11 +1,11 @@
 Use supermercado;
 
-#Para o trigger funcionar, parte de calcular a idade do cliente a partir da data de nascimetno 
+#Para o trigger funcionar, parte de calcular a idade do cliente a partir da data de nascimetno
 
 alter table CLIENTE
 add column idade int;
 
-#trigger para calcular a idade do cliente durante o cadastro 
+#trigger para calcular a idade do cliente durante o cadastro
 
 
 
@@ -41,7 +41,7 @@ DELIMITER ;
 DELIMITER ;
 
 
-#Trigger para atualizar a quantidade de produto 
+#Trigger para atualizar a quantidade de produto
 DELIMITER //
 
 CREATE TRIGGER atualizar_estoque_update
@@ -55,7 +55,7 @@ END //
 
 DELIMITER ;
 
-#Trigger para deletar 
+#Trigger para deletar
 
 DELIMITER //
 
@@ -103,7 +103,7 @@ END //
 DELIMITER ;
 
 
-#Para retirar 
+#Para retirar
 
 DELIMITER //
 
