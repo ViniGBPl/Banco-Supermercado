@@ -23,7 +23,8 @@ VALUES
 ('98765432109', 2, '2019-05-20', 'F', 'Casado', 'maria.souza', 'senha456', '0987654321', 'Maria Souza', TRUE, 'Avenida dos Lagos, 456'),
 ('11111111111', 3, '2021-03-10', 'M', 'Divorciado', 'carlos.oliveira', 'senha789', '1111111111', 'Carlos Oliveira', TRUE, 'Rua das Palmeiras, 789'),
 ('22222222222', 4, '2022-07-25', 'F', 'Solteiro', 'ana.costa', 'senha101', '2222222222', 'Ana Costa', TRUE, 'Avenida das Acácias, 101'),
-('33333333333', 1, '2023-02-14', 'M', 'Casado', 'pedro.santos', 'senha202', '3333333333', 'Pedro Santos', TRUE, 'Rua das Margaridas, 202');
+('33333333333', 1, '2023-02-14', 'M', 'Casado', 'pedro.santos', 'senha202', '3333333333', 'Pedro Santos', TRUE, 'Rua das Margaridas, 202'),
+('33333333334', 4, '2023-02-14', 'M', 'Casado', 'entrega.teste', 'senha202', '3333333339', 'Vinicius santos', TRUE, 'Rua das Margaridas, 204');
 
 -- Inserir mais dados na tabela GERENTE
 INSERT INTO GERENTE (CPF)
@@ -38,7 +39,8 @@ INSERT INTO ENTREGADOR (CPF)
 VALUES 
 ('12345678901'),
 ('98765432109'),
-('33333333333');
+('33333333333'),
+('33333333334');
 
 -- Inserir mais dados na tabela FORNECEDOR
 INSERT INTO FORNECEDOR (NomeFornecedor, CNPJ, Telefone, Ativo, Rua, Bairro, CEP, Estado)
