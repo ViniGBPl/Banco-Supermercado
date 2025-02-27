@@ -1,0 +1,23 @@
+TO-DO:
+
+(opcional): gerar gráficos para análise do banco de dados usando python:
+-https://pythonacademy.com.br/blog/como-criar-graficos-utilizando-matplotlib-no-python
+-https://medium.com/towards-data-science/a-guide-to-pandas-and-matplotlib-for-data-exploration-56fad95f951c
+
+VIEWS
+
+RELATORIOS
+
+-Povoamento por excel (opcional)
+-colocar alguns constraints de checagem nos scripts
+-propor estrutura para o relatorio extra que o professor pediu
+-demonstrar uso de transações utilizando (BEGIN, TRANSATION, COMMIT, ROLLBACK)
+
+Requisitos concluídos:
+
+-GRANTS
+-Povoamento por INSERT
+
+-trigger qtd_estoque (toda  vez que um ITEM_ESTOQUE for deletado, inserido ou atualizado)
+-trigger FILIAL
+-trigger idades
