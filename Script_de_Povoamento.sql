@@ -180,7 +180,7 @@ VALUES
 (4, 4, 4, 250.00, '2023-10-08', FALSE);
 
 -- Inserir mais dados na tabela NOTA_FISCAL
-INSERT INTO NOTA_FISCAL (NFE, ICMS, Valor_Total, Valor_Total_Desconto, data_NotaFical, Valor_Frete)
+INSERT INTO NOTA_FISCAL (NFE, ICMS, Valor_Total, Valor_Total_Desconto, data_NotaFiscal, Valor_Frete)
 VALUES
 ('NFE123456789', 10.00, 150.00, 10.00, '2023-10-01', 15.00),
 ('NFE987654321', 20.00, 200.00, 20.00, '2023-10-02', 25.00),

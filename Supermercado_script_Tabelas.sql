@@ -262,7 +262,7 @@ CREATE TABLE NOTA_FISCAL (
     #nesse de baixo, usei as regras de negocio passadas pelo chat, talvez seja necessário validar.
     Valor_Total DECIMAL(10,2) NOT NULL CHECK (Valor_Total >= 0),
     Valor_Total_Desconto DECIMAL(10,2) CHECK (Valor_Total_Desconto >= 0),
-    data_NotaFical DATE NOT NULL,
+    data_NotaFiscal DATE NOT NULL,
     Valor_Frete DECIMAL(10,2) CHECK (Valor_Frete >= 0)
 );
 
