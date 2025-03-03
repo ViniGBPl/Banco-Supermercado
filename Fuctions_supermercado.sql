@@ -33,7 +33,7 @@ DETERMINISTIC
 READS SQL DATA
 BEGIN
     DECLARE v_Valor_Total DECIMAL(10, 2);
-    SELECT SUM(Quantidade * Preco_unitario)
+    SELECT SUM(Quantidade * IFNULL(Preco_unitario, 0))
     INTO v_Valor_Total
     FROM ITEM_PEDIDO
     WHERE Cod_pedido_fornecedor = p_Cod_Pedido_Fornecedor;

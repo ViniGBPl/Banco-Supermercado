@@ -53,6 +53,9 @@ Grant select, insert, update on supermercado.cliente to GERENTE;
 #Para o fornecedor 
 Grant select , insert, update on supermercado.fornecedor to GERENTE;
 
+#Gerente pode dar grant pra outros funcionarios
+GRANT GRANT OPTION ON supermercado.* TO GERENTE;
+
 ##PARA  ENTREGADOR #####
 
 #Para atualizar os status da entrega

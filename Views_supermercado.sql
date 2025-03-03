@@ -1,7 +1,7 @@
 CREATE VIEW View_Relatorio_Pedido_Fornecedor AS
 SELECT  
     PEDIDO_FORNECEDOR.Cod,
-    PEDIDO_FORNECEDOR.Data_Pedido_Forncedor,
+    PEDIDO_FORNECEDOR.Data_Pedido_Fornecedor,
     PEDIDO_FORNECEDOR.Valor_total,
     FATURA.id,
     FATURA.dt_venc,

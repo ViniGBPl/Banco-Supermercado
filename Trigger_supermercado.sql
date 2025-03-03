@@ -15,7 +15,11 @@ CREATE TRIGGER calcular_idade_insert
 BEFORE INSERT ON CLIENTE
 FOR EACH ROW
 BEGIN
-    SET NEW.idade = TIMESTAMPDIFF(YEAR, NEW.DataNascimento, CURDATE());
+    IF NEW.DataNascimento IS NOT NULL THEN
+        SET NEW.idade = TIMESTAMPDIFF(YEAR, NEW.DataNascimento, CURDATE());
+    ELSE
+        SET NEW.idade = NULL;
+    END IF;
 END //
 
 DELIMITER ;
@@ -49,7 +53,7 @@ AFTER UPDATE ON ITEM_ESTOQUE
 FOR EACH ROW
 BEGIN
     UPDATE PRODUTO_REF
-    SET qtd_estoque = qtd_estoque - OLD.qtd_atual + NEW.qtd_atual
+    SET qtd_estoque = qtd_estoque - IFNULL(OLD.qtd_atual, 0) + IFNULL(NEW.qtd_atual, 0)
     WHERE Cod = NEW.Cod_Prod;
 END //
 
@@ -64,7 +68,7 @@ AFTER DELETE ON ITEM_ESTOQUE
 FOR EACH ROW
 BEGIN
     UPDATE PRODUTO_REF
-    SET qtd_estoque = qtd_estoque - OLD.qtd_atual
+    SET qtd_estoque = qtd_estoque - IFNULL(OLD.qtd_atual, 0)
     WHERE Cod = OLD.Cod_Prod;
 END //
 
@@ -113,7 +117,7 @@ FOR EACH ROW
 BEGIN
 
     UPDATE FILIAL
-    SET Qtde_fun = Qtde_fun - 1
+    SET Qtde_fun = GREATEST(Qtde_fun - 1, 0)
     WHERE ID = OLD.id_Filial;
 END //
 
