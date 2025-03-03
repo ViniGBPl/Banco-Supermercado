@@ -219,8 +219,8 @@ CREATE TABLE PEDIDO_FORNECEDOR (
     Total_desconto DECIMAL(10,2),
     Valor_total_IPI DECIMAL(10,2),
     Valor_total DECIMAL(10,2),
-    Data_Pedido_Forncedor DATE,
-    Status_Pedido_Forncedor BOOLEAN,
+    Data_Pedido_Fornecedor DATE,
+    Status_Pedido_Fornecedor BOOLEAN,
     Valor_frete DECIMAL(10,2),
     FOREIGN KEY (CPF_gerente) REFERENCES GERENTE(CPF)
 );
