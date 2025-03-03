@@ -1,3 +1,4 @@
+Use supermercado;
 DELIMITER //
 
 CREATE FUNCTION VerificarEstoqueSuficiente(
