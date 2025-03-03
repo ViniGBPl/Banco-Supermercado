@@ -103,6 +103,53 @@ end //
  #   10.00,         -- IPI
 #    2              -- codPagamento
 #);
+    
+    
+    
+    
+## Gerar um FATURA e PAGAMENTO depois de um PEDIDO_FORNECEDOR
+
+Delimiter //
+
+CREATE PROCEDURE GerarFaturaPagamentoPedidoFornecedor(
+    IN pedidoID INT,
+    IN dataVencimento DATE,
+    IN dataPagamento DATE,
+    IN codTipoPagamento INT
+)
+BEGIN 
+    DECLARE pedidoExiste INT DEFAULT 0;
+    DECLARE valorTotal DECIMAL(10,2) DEFAULT 0.00;
+    DECLARE faturaID INT;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN 
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erro ao gerar a fatura e o pagamento';
+    END;
+
+    START TRANSACTION;
+    
+    -- Verifica se o pedido existe e pega o valor total
+    SELECT COUNT(*), COALESCE(SUM(Valor_total), 0)
+    INTO pedidoExiste, valorTotal
+    FROM PEDIDO_FORNECEDOR
+    WHERE Cod = pedidoID;
+
+    IF pedidoExiste = 0 OR valorTotal = 0 THEN 
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Pedido do fornecedor não encontrado ou sem valor total';
+    ELSE
+        -- Cria a fatura
+        INSERT INTO FATURA (cod_Pedido_Fornecedor, dt_venc, vl_pago_atual, vl_total_final, dt_emissao, status_fatura)
+        VALUES (pedidoID, dataVencimento, 0.00, valorTotal, CURDATE(), 0);
+
+        SET faturaID = LAST_INSERT_ID();
+
+        -- Registra o pagamento
+        INSERT INTO PAGAMENTO (id_fatura, cod_compra, cod_tipo_pagamento, vl_pago, data_Pagamento, status_Pagamento)
+        VALUES (faturaID, pedidoID, codTipoPagamento, valorTotal, dataPagamento, 1);
         
-
-
+        COMMIT;
+    END IF;
+END //
