@@ -32,7 +32,7 @@ DELIMITER ;
 #Trigger para atualizar a quantidade de produto
 #Não é necessário usar transactions explicitamente em triggers, pois o MySQL já gerencia isso internamente.
 
---triger de atualização do estoque para cada operação de item_estoque
+--trigger de atualização do estoque para cada operação de item_estoque
 
 DELIMITER //
 

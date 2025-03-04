@@ -223,3 +223,106 @@ VALUES
 (2, 2, 20, 4.50),
 (3, 3, 15, 7.50),
 (4, 4, 25, 2.50);
+
+-- povoamento extra
+
+-- Marca para Azeite
+INSERT INTO MARCA_PROD (Descricao)
+VALUES ('Oliveira Premium');
+
+-- Marca para Soja
+INSERT INTO MARCA_PROD (Descricao)
+VALUES ('SojaFit');
+
+-- Marca para Bolo
+INSERT INTO MARCA_PROD (Descricao)
+VALUES ('BoloMaster');
+
+-- Marca para Shampoo
+INSERT INTO MARCA_PROD (Descricao)
+VALUES ('CR7 Haircare');
+-- Fornecedor de Azeite
+INSERT INTO FORNECEDOR (NomeFornecedor, CNPJ, Telefone, Ativo, Rua, Bairro, CEP, Estado)
+VALUES ('Azeites do Sul', '55555555000100', '1155555555', TRUE, 'Rua das Oliveiras, 500', 'Centro', '12345678', 'RS');
+
+-- Fornecedor de Soja
+INSERT INTO FORNECEDOR (NomeFornecedor, CNPJ, Telefone, Ativo, Rua, Bairro, CEP, Estado)
+VALUES ('Soja Brasil', '66666666000100', '1166666666', TRUE, 'Avenida das Plantações, 600', 'Rural', '87654321', 'PR');
+
+-- Fornecedor de Bolos
+INSERT INTO FORNECEDOR (NomeFornecedor, CNPJ, Telefone, Ativo, Rua, Bairro, CEP, Estado)
+VALUES ('Confeitaria Doce Sabor', '77777777000100', '1177777777', TRUE, 'Rua dos Doces, 700', 'Doce', '54321678', 'SP');
+
+-- Fornecedor de Shampoo
+INSERT INTO FORNECEDOR (NomeFornecedor, CNPJ, Telefone, Ativo, Rua, Bairro, CEP, Estado)
+VALUES ('CR7 Beauty', '88888888000100', '1188888888', TRUE, 'Avenida dos Cosméticos, 800', 'Beleza', '87651234', 'RJ');
+-- Promoção de Natal (com data de término)
+INSERT INTO PROMOCAO (Descricao, Data_Inicio, Data_Fim, Perc_Reducao)
+VALUES ('Promoção de Natal', '2025-12-01', '2025-12-25', 15.00);
+
+-- Promoção de Carnaval (com data de término)
+INSERT INTO PROMOCAO (Descricao, Data_Inicio, Data_Fim, Perc_Reducao)
+VALUES ('Promoção de Carnaval', '2025-02-10', '2025-02-15', 20.00);
+
+-- Promoção de Páscoa (sem data de término)
+INSERT INTO PROMOCAO (Descricao, Data_Inicio, Data_Fim, Perc_Reducao)
+VALUES ('Promoção de Páscoa', '2025-03-25', NULL, 10.00);
+
+-- Promoção de Volta às Aulas (sem data de término)
+INSERT INTO PROMOCAO (Descricao, Data_Inicio, Data_Fim, Perc_Reducao)
+VALUES ('Promoção de Volta às Aulas', '2025-01-15', NULL, 12.50);
+
+-- Azeite
+INSERT INTO PRODUTO_REF (Id_Unidade, Id_Marca, Id_SubCateg, cod_Fornecedor, Preco_por_tabela, Cod_barra, Freq_pedido, Qtd_estoque, Descricao, Qtd_min, Preco_ult_compra)
+VALUES (2, 1, 1, 1, 25.00, '1111111111111', 8, 50, 'Azeite Extra Virgem', 5, 22.50);
+
+-- Soja
+INSERT INTO PRODUTO_REF (Id_Unidade, Id_Marca, Id_SubCateg, cod_Fornecedor, Preco_por_tabela, Cod_barra, Freq_pedido, Qtd_estoque, Descricao, Qtd_min, Preco_ult_compra)
+VALUES (1, 2, 1, 2, 8.00, '2222222222222', 12, 100, 'Grãos de Soja', 10, 7.50);
+
+-- Bolo
+INSERT INTO PRODUTO_REF (Id_Unidade, Id_Marca, Id_SubCateg, cod_Fornecedor, Preco_por_tabela, Cod_barra, Freq_pedido, Qtd_estoque, Descricao, Qtd_min, Preco_ult_compra)
+VALUES (3, 3, 1, 3, 30.00, '3333333333333', 6, 20, 'Bolo de Chocolate', 3, 28.00);
+
+-- Shampoo do CR7
+INSERT INTO PRODUTO_REF (Id_Unidade, Id_Marca, Id_SubCateg, cod_Fornecedor, Preco_por_tabela, Cod_barra, Freq_pedido, Qtd_estoque, Descricao, Qtd_min, Preco_ult_compra)
+VALUES (4, 4, 4, 4, 50.00, '4444444444444', 10, 30, 'Shampoo CR7', 5, 45.00);
+-- Compra 1
+INSERT INTO COMPRA (Cod, Seq_Entrega, Valor_Total, Data_Compra, Valor_Total_Desconto, Status_Compra, CPF_Cliente)
+VALUES (8, 8, 200.00, '2024-03-10', 20.00, 'Pago', '11111111111');
+
+-- Itens da Compra 1
+INSERT INTO ITEMCOMPRA (Cod_Compra, Cod_Produto, Quantidade, Valor_Unitario, Valor_desconto_item)
+VALUES (8, 1, 2, 25.00, 5.00),  -- Azeite
+       (8, 2, 3, 8.00, 1.50),    -- Soja
+       (8, 5, 1, 50.00, 10.00);  -- Shampoo CR7
+
+-- Compra 2
+INSERT INTO COMPRA (Seq_Entrega, Valor_Total, Data_Compra, Valor_Total_Desconto, Status_Compra, CPF_Cliente)
+VALUES (9, 150.00, '2024-03-11', 15.00, 'Aguardando', '22222222222');
+
+-- Itens da Compra 2
+INSERT INTO ITEMCOMPRA (Cod_Compra, Cod_Produto, Quantidade, Valor_Unitario, Valor_desconto_item)
+VALUES (9, 3, 1, 30.00, 3.00),  -- Bolo
+       (9, 4, 5, 3.00, 0.50),   -- Sabonete
+       (9, 2, 2, 8.00, 1.00);    -- Soja
+
+-- Compra 3
+INSERT INTO COMPRA (Seq_Entrega, Valor_Total, Data_Compra, Valor_Total_Desconto, Status_Compra, CPF_Cliente)
+VALUES (10, 300.00, '2024-03-12', 30.00, 'Pago', '33333333333');
+
+-- Itens da Compra 3
+INSERT INTO ITEMCOMPRA (Cod_Compra, Cod_Produto, Quantidade, Valor_Unitario, Valor_desconto_item)
+VALUES (10, 5, 2, 50.00, 10.00),  -- Shampoo CR7
+       (10, 1, 3, 25.00, 7.50),   -- Azeite
+       (10, 3, 1, 30.00, 3.00);   -- Bolo
+
+-- Compra 4
+INSERT INTO COMPRA (Seq_Entrega, Valor_Total, Data_Compra, Valor_Total_Desconto, Status_Compra, CPF_Cliente)
+VALUES (11, 250.00, '2024-03-13', 25.00, 'Cancelada', '44444444444');
+
+-- Itens da Compra 4
+INSERT INTO ITEMCOMPRA (Cod_Compra, Cod_Produto, Quantidade, Valor_Unitario, Valor_desconto_item)
+VALUES (11, 2, 4, 8.00, 2.00),    -- Soja
+       (11, 4, 6, 3.00, 0.60),    -- Sabonete
+       (11, 5, 1, 50.00, 10.00);  -- Shampoo CR7

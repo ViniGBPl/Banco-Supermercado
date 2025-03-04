@@ -1,3 +1,5 @@
+USE supermercado;
+
 DELIMITER //
 
 CREATE FUNCTION load_csv(nome_tabela VARCHAR(24), caminho_arquivo VARCHAR(255))

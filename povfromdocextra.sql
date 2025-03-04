@@ -1,3 +1,5 @@
+USE supermercado;
+
 DELIMITER //
 
 CREATE PROCEDURE csv_runner(caminho_arquivo VARCHAR(255))
