@@ -1,0 +1,3 @@
+Cod,Id_Unidade,Id_Marca,Id_SubCateg,cod_Fornecedor,Preco_por_tabela,Cod_barra,Freq_pedido,Qtd_estoque,Descricao,Qtd_min,Preco_ult_compra
+1,1,1,1,1,10.50,"7891234567890",30,100,"Arroz Integral",20,9.50
+2,2,2,2,2,5.75,"7891234567891",20,200,"Feijão Carioca",50,5.00

@@ -1,0 +1,3 @@
+Cod,Seq_Entrega,Valor_Total,Data_Compra,Valor_Total_Desconto,Status_Compra,CPF_Cliente
+1,1,50.00,"2023-10-10",45.00,"Pago","111.222.333-44"
+2,2,30.00,"2023-10-15",25.00,"Aguardando","222.333.444-55"
