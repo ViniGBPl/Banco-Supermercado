@@ -69,3 +69,22 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE FUNCTION CalcularTotalDescontoCompra(
+    p_Cod_Compra INT 
+)
+RETURNS DECIMAL(10, 2) 
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE v_Total_Desconto DECIMAL(10, 2);
+    SELECT SUM(Valor_desconto_item)
+    INTO v_Total_Desconto
+    FROM ITEMCOMPRA
+    WHERE Cod_compra = p_Cod_Compra;
+    RETURN IFNULL(v_Total_Desconto, 0);
+END //
+
+DELIMITER ;
