@@ -29,53 +29,62 @@ DELIMITER ;
 
 #Trigger para adionar uma quantidade de produto
 
+#Trigger para atualizar a quantidade de produto
+#Não é necessário usar transactions explicitamente em triggers, pois o MySQL já gerencia isso internamente.
+
+--triger de atualização do estoque para cada operação de item_estoque
+
 DELIMITER //
 
-CREATE TRIGGER atualizar_estoque_insert
+CREATE TRIGGER AtualizarEstoqueProdutoRefInsert
 AFTER INSERT ON ITEM_ESTOQUE
 FOR EACH ROW
 BEGIN
+    -- Atualiza a quantidade em estoque do produto após inserção
     UPDATE PRODUTO_REF
     SET qtd_estoque = qtd_estoque + NEW.qtd_atual
     WHERE Cod = NEW.Cod_Prod;
 END //
 
-DELIMITER ;
-
-DELIMITER ;
-
-
-#Trigger para atualizar a quantidade de produto
-DELIMITER //
-
-CREATE TRIGGER atualizar_estoque_update
+CREATE TRIGGER AtualizarEstoqueProdutoRefUpdate
 AFTER UPDATE ON ITEM_ESTOQUE
 FOR EACH ROW
 BEGIN
+    -- Atualiza a quantidade em estoque do produto após atualização
     UPDATE PRODUTO_REF
-    SET qtd_estoque = qtd_estoque - IFNULL(OLD.qtd_atual, 0) + IFNULL(NEW.qtd_atual, 0)
+    SET qtd_estoque = qtd_estoque - OLD.qtd_atual + NEW.qtd_atual
     WHERE Cod = NEW.Cod_Prod;
 END //
 
-DELIMITER ;
-
-#Trigger para deletar
-
-DELIMITER //
-
-CREATE TRIGGER atualizar_estoque_delete
+CREATE TRIGGER AtualizarEstoqueProdutoRefDelete
 AFTER DELETE ON ITEM_ESTOQUE
 FOR EACH ROW
 BEGIN
+    -- Atualiza a quantidade em estoque do produto após exclusão
     UPDATE PRODUTO_REF
-    SET qtd_estoque = qtd_estoque - IFNULL(OLD.qtd_atual, 0)
+    SET qtd_estoque = qtd_estoque - OLD.qtd_atual
     WHERE Cod = OLD.Cod_Prod;
 END //
 
 DELIMITER ;
 
+## Falta testar
 
-#trigger do para quantidade de funcionarios na filial
+
+
+#trigger do para qauntidade de funcionarios na filial
+
+
+###Pode usar como teste
+#INSERT INTO FUNCIONARIO (CPF, id_Filial, Data_admissao, Sexo, Estado_Civil, Login, Senha, RG, Nome, Situação, Endereco)
+#VALUES ('12345678902', 1, '2023-10-01', 'M', 'Solteiro', 'joao.silva', 'senha123', '1234567890', 'João Silva', TRUE, 'Rua A, 123');
+
+
+#DELETE FROM FUNCIONARIO WHERE CPF = '12345678902';
+
+# Verificar se a quantidade de funcionários na filial foi atualizada
+#SELECT * FROM FILIAL WHERE ID = 1;
+###Pode usar como teste
 
 
 #Inserir
@@ -108,36 +117,4 @@ BEGIN
 END //
 
 DELIMITER ;
-  #trigger do para quantidade de funcionarios na filial
-
-
-###Pode usar como teste
-### USAR PARA TESTE NA HORA INSERT INTO FUNCIONARIO (CPF, id_Filial, Data_admissao, Sexo, Estado_Civil, Login, Senha, RG, Nome, Situação, Endereco)
-### USAR PARA TESTE NA HORA VALUES ('12345678902', 1, '2023-10-01', 'M', 'Solteiro', 'joao.silvateste', 'senha123', '1234577890', 'João Silva', TRUE, 'Rua A, 123');
-
-
-### USAR PARA TESTE NA HORA  DELETE FROM FUNCIONARIO WHERE CPF = '12345678902';
-
-# Verificar se a quantidade de funcionários na filial foi atualizada
-### USAR PARA TESTE NA HORA   SELECT * FROM FILIAL WHERE ID = 1;
-
-
-
-
-##trigger para garantir a atividade do funcionário ao ser adicionado
-
-DELIMITER //
-
-CREATE TRIGGER set_funcionario_ativo 
-BEFORE INSERT ON FUNCIONARIO 
-FOR EACH ROW 
-BEGIN
-    SET NEW.Situação = TRUE;
-END//
-
-DELIMITER ;
- 
-
-
-
 
