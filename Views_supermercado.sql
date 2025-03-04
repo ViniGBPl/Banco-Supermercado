@@ -26,6 +26,10 @@ JOIN
 JOIN 
     SUBCATEGORIA ON PRODUTO.Cod_Subcategoria = SUBCATEGORIA.Cod;
 
+
+
+###Relatório de PEDIDO_FORNECEDOR por FATURA, TIPO_PAGAMENTO,  NF_FORNECEDOR, E GERENTE
+
 CREATE VIEW View_Relatorio_Pedido_Fornecedor AS
 SELECT  
     PEDIDO_FORNECEDOR.Cod,
@@ -91,6 +95,10 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+
+## Relatório proposto 
 
 
 CREATE VIEW View_Relatorio_Vendas_Produto AS
