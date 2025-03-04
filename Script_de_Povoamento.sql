@@ -156,7 +156,7 @@ VALUES
 (4, 'Cartão de Débito');
 
 -- Inserir mais dados na tabela PEDIDO_FORNECEDOR
-INSERT INTO PEDIDO_FORNECEDOR (CPF_gerente, Total_desconto, Valor_total_IPI, Valor_total, Data_Pedido_Forncedor, Status_Pedido_Forncedor, Valor_frete)
+INSERT INTO PEDIDO_FORNECEDOR (CPF_gerente, Total_desconto, Valor_total_IPI, Valor_total, Data_Pedido_Fornecedor, Status_Pedido_Fornecedor, Valor_frete)
 VALUES
 ('12345678901', 10.00, 5.00, 100.00, '2023-10-01', TRUE, 15.00),
 ('98765432109', 20.00, 10.00, 200.00, '2023-10-02', TRUE, 25.00),

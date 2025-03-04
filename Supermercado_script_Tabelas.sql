@@ -255,7 +255,7 @@ CREATE TABLE PAGAMENTO (
 
 
 CREATE TABLE NOTA_FISCAL (
-	NFE VARCHAR(50) PRIMARY KEY,
+	NFE VARCHAR(50) PRIMARY KEY not null,
     ICMS DECIMAL(10,2) NOT NULL,
 
     #nesse de baixo, usei as regras de negocio passadas pelo chat, talvez seja necessário validar.
@@ -266,7 +266,7 @@ CREATE TABLE NOTA_FISCAL (
 );
 
 CREATE TABLE NOTA_FISCAL_FORNECEDOR(
-	NFE VARCHAR(50) PRIMARY KEY,
+	NFE VARCHAR(50) PRIMARY KEY not null,
     cod_pagamento INT NOT NULL,
     IPI DECIMAL(10,2) NOT NULL CHECK (IPI >= 0), #REGRA DE NEGOCIO DO CHAT
 
