@@ -44,16 +44,20 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON Supermercado.gerente TO GERENTE;
 Grant select, insert,update on supermercado.estoque to GERENTE;
 Grant select, insert, update on  supermercado.item_estoque to GERENTE;
 
+
 #Para o gerente visualizar vendas e cliente
 
+Grant select, insert, update on supermercado.produto_ref to GERENTE;
 Grant select, insert, update on supermercado.compra to GERENTE;
 Grant select, insert, update on supermercado.itemcompra to GERENTE;
 Grant select, insert, update on supermercado.cliente to GERENTE;
 
 #Para o fornecedor 
 Grant select , insert, update on supermercado.fornecedor to GERENTE;
+Grant select, insert, update on supermercado.pedido_fornecedor to GERENTE;
 
 #Gerente pode dar grant pra outros funcionarios
+
 GRANT GRANT OPTION ON supermercado.* TO GERENTE;
 
 ##PARA  ENTREGADOR #####
@@ -70,7 +74,7 @@ Grant select, update(Data_Entrega,Hora_Estimada) on supermercado.entrega to ENTR
 ##PARA O CLIENTE#####
 
 #Para visualizar e editar os próprios dados
-Grant select, update(Email, Senha, Telefone, CEP, Numero,Cidade, Descricao) on supermercado.cliente to CLIENTE;
+Grant insert,select, update(Email,Cpf, Senha, Telefone, CEP, Numero,Cidade, Descricao) on supermercado.cliente to CLIENTE;
  
  #Para realizar Compras e Visualizar o histório de compras 
  Grant select,insert on supermercado.compra to CLIENTE;
