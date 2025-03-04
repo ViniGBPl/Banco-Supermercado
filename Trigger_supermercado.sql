@@ -73,23 +73,9 @@ BEGIN
 END //
 
 DELIMITER ;
-## Falta testar
-
 
 
 #trigger do para quantidade de funcionarios na filial
-
-
-###Pode usar como teste
-#INSERT INTO FUNCIONARIO (CPF, id_Filial, Data_admissao, Sexo, Estado_Civil, Login, Senha, RG, Nome, Situação, Endereco)
-#VALUES ('12345678902', 1, '2023-10-01', 'M', 'Solteiro', 'joao.silva', 'senha123', '1234567890', 'João Silva', TRUE, 'Rua A, 123');
-
-
-#DELETE FROM FUNCIONARIO WHERE CPF = '12345678902';
-
-# Verificar se a quantidade de funcionários na filial foi atualizada
-#SELECT * FROM FILIAL WHERE ID = 1;
-###Pode usar como teste
 
 
 #Inserir
@@ -122,6 +108,21 @@ BEGIN
 END //
 
 DELIMITER ;
+  #trigger do para quantidade de funcionarios na filial
+
+
+###Pode usar como teste
+### USAR PARA TESTE NA HORA INSERT INTO FUNCIONARIO (CPF, id_Filial, Data_admissao, Sexo, Estado_Civil, Login, Senha, RG, Nome, Situação, Endereco)
+### USAR PARA TESTE NA HORA VALUES ('12345678902', 1, '2023-10-01', 'M', 'Solteiro', 'joao.silvateste', 'senha123', '1234577890', 'João Silva', TRUE, 'Rua A, 123');
+
+
+### USAR PARA TESTE NA HORA  DELETE FROM FUNCIONARIO WHERE CPF = '12345678902';
+
+# Verificar se a quantidade de funcionários na filial foi atualizada
+### USAR PARA TESTE NA HORA   SELECT * FROM FILIAL WHERE ID = 1;
+
+
+
 
 ##trigger para garantir a atividade do funcionário ao ser adicionado
 
