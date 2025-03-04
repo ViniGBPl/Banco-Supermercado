@@ -1,30 +1,28 @@
-DROP VIEW IF EXISTS View_Relatorio_Compra_Produtos;
-DROP VIEW IF EXISTS View_Relatorio_Pedido_Fornecedor;
 
 CREATE VIEW View_Relatorio_Compra_Produtos AS
 SELECT  
     COMPRA.Cod AS Codigo_Compra,
     COMPRA.Data_Compra,
-    ITEMCOMPRA.Cod_Prod AS Codigo_Produto,
-    PRODUTO.Nome AS Nome_Produto,
-    MARCA.Nome AS Marca,
-    CATEGORIA.Nome AS Categoria,
-    SUBCATEGORIA.Nome AS Subcategoria,
+    ITEMCOMPRA.Cod_produto AS Codigo_Produto,
+    PRODUTO_REF.Descricao AS Nome_Produto,
+    MARCA_PROD.Descricao AS Marca,
+    CATEGORIA.Descricao AS Categoria,
+    SUBCATEGORIA.Descricao AS Subcategoria,
     ITEMCOMPRA.Quantidade,
-    ITEMCOMPRA.Preco_Unitario,
-    (ITEMCOMPRA.Quantidade * ITEMCOMPRA.Preco_Unitario) AS Valor_Total
+    ITEMCOMPRA.Valor_unitario AS Preco_Unitario,
+    (ITEMCOMPRA.Quantidade * ITEMCOMPRA.Valor_unitario) AS Valor_Total
 FROM 
     COMPRA
 JOIN 
-    ITEMCOMPRA ON COMPRA.Cod = ITEMCOMPRA.Cod_Compra
+    ITEMCOMPRA ON COMPRA.Cod = ITEMCOMPRA.Cod_compra
 JOIN 
-    PRODUTO ON ITEMCOMPRA.Cod_Prod = PRODUTO.Cod
+    PRODUTO_REF ON ITEMCOMPRA.Cod_produto = PRODUTO_REF.Cod
 JOIN 
-    MARCA ON PRODUTO.Cod_Marca = MARCA.Cod
+    MARCA_PROD ON PRODUTO_REF.Id_Marca = MARCA_PROD.Cod
 JOIN 
-    CATEGORIA ON PRODUTO.Cod_Categoria = CATEGORIA.Cod
+    SUBCATEGORIA ON PRODUTO_REF.Id_SubCateg = SUBCATEGORIA.Cod
 JOIN 
-    SUBCATEGORIA ON PRODUTO.Cod_Subcategoria = SUBCATEGORIA.Cod;
+    CATEGORIA ON SUBCATEGORIA.Cod_Categoria = CATEGORIA.Cod;
 
 
 
@@ -33,7 +31,7 @@ JOIN
 CREATE VIEW View_Relatorio_Pedido_Fornecedor AS
 SELECT  
     PEDIDO_FORNECEDOR.Cod,
-    PEDIDO_FORNECEDOR.Data_Pedido_Fornecedor,
+    #PEDIDO_FORNECEDOR.Data_Pedido_Fornecedor AS Data_Pedido, -- Corrigido o nome da coluna
     PEDIDO_FORNECEDOR.Valor_total,
     FATURA.id,
     FATURA.dt_venc,
@@ -105,24 +103,22 @@ CREATE VIEW View_Relatorio_Vendas_Produto AS
 SELECT 
     COMPRA.Cod AS Codigo_Compra,
     COMPRA.Data_Compra,
-    CLIENTE.Nome AS Cliente_Nome,
+    CLIENTE.P_nome AS Cliente_Nome, -- Use P_nome, M_nome e U_nome para o nome completo
     CLIENTE.Email AS Cliente_Email,
-    ITEMCOMPRA.Cod_Produto AS Codigo_Produto,
+    ITEMCOMPRA.Cod_produto AS Codigo_Produto,
     ITEMCOMPRA.Quantidade,
-    ITEMCOMPRA.Preco_Unitario,
-    (ITEMCOMPRA.Quantidade * ITEMCOMPRA.Preco_Unitario) AS Valor_Total_Compra
+    ITEMCOMPRA.Valor_unitario AS Preco_Unitario, -- Corrigido para Valor_unitario
+    (ITEMCOMPRA.Quantidade * ITEMCOMPRA.Valor_unitario) AS Valor_Total_Compra
 FROM 
     COMPRA
 INNER JOIN 
-    ITEMCOMPRA ON COMPRA.Cod = ITEMCOMPRA.Cod_Compra
+    ITEMCOMPRA ON COMPRA.Cod = ITEMCOMPRA.Cod_compra
 INNER JOIN 
-    CLIENTE ON COMPRA.Cod_Cliente = CLIENTE.Cod;
+    CLIENTE ON COMPRA.CPF_Cliente = CLIENTE.CPF; -- Corrigido para CPF_Cliente
 
 
-SELECT * FROM View_Relatorio_Compra_Produtos
-WHERE Data_Compra BETWEEN '2024-01-01' AND '2024-12-31';
+SELECT * FROM View_Relatorio_Compra_Produtos;
 
 SELECT * FROM View_Relatorio_Pedido_Fornecedor;
 
-SELECT * FROM View_Relatorio_Vendas_Produto
-WHERE Data_Compra BETWEEN '2024-01-01' AND '2024-12-31';
+SELECT * FROM View_Relatorio_Vendas_Produto;
