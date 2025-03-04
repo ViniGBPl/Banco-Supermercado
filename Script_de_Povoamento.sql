@@ -89,7 +89,9 @@ VALUES
 ('Marca A'),
 ('Marca B'),
 ('Marca C'),
-('Marca D');
+('Marca D'),
+('Marca teste'),
+('Marca teste1');
 
 -- Inserir mais dados na tabela CATEGORIA
 INSERT INTO CATEGORIA (Descricao)
@@ -105,7 +107,13 @@ VALUES
 (1, 'Carnes'),
 (2, 'Refrigerantes'),
 (3, 'Detergentes'),
-(4, 'Sabonetes');
+(4, 'Sabonetes'),
+(1,'Massa'),
+(2,'cerveja'),
+(2,'vinho'),
+(4,'Shampoo'),
+(4,'Condicionador'),
+(1,'Vegetais');
 
 -- Inserir mais dados na tabela PRODUTO_REF
 INSERT INTO PRODUTO_REF (Id_Unidade, Id_Marca, Id_SubCateg, cod_Fornecedor, Preco_por_tabela, Cod_barra, Freq_pedido, Qtd_estoque, Descricao, Qtd_min, Preco_ult_compra)
@@ -113,8 +121,13 @@ VALUES
 (1, 1, 1, 1, 10.00, '1234567890123', 5, 100, 'Carne Bovina', 10, 9.50),
 (2, 2, 2, 2, 5.00, '9876543210987', 10, 200, 'Refrigerante Cola', 20, 4.50),
 (3, 3, 3, 3, 8.00, '5555555555555', 7, 150, 'Detergente Líquido', 15, 7.50),
-(4, 4, 4, 4, 3.00, '6666666666666', 12, 300, 'Sabonete em Barra', 30, 2.50);
-
+(4, 4, 4, 4, 3.00, '6666666666666', 12, 300, 'Sabonete em Barra', 30, 2.50),
+(1, 1, 10, 4, 10.00,6666666666667, 20, 300 ,'Cenoura grande','20',19.00),
+(2, 2, 2, 2, 10.00,6666666666668, 20, 300 ,'Coca-cola','20',19.00),
+(1, 4, 5, 1, 10.00, '1234567890124', 5, 100, 'Pizza de Queijo', 10, 9.50),
+(2, 4, 8, 3, 3.00, '6666646666668', 12, 300, 'Shampo verde', 30, 2.50),
+(2, 4, 9, 4, 3.00, '6666666666669', 12, 300, 'Condicionador Verde', 30, 2.50),
+(2, 3, 7, 2, 5.00, '9876543210907', 10, 200, 'Vinho verde', 20, 4.50);
 -- Inserir mais dados na tabela ESTOQUE
 INSERT INTO ESTOQUE (id_Filial, descricao, dt_ult_Entrada)
 VALUES
