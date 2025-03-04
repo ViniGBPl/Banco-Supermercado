@@ -42,3 +42,30 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE FUNCTION VerificarProdutoProximoVencimento(
+    p_Cod_Prod INT, 
+    p_N INT         
+)
+RETURNS BOOLEAN 
+DETERMINISTIC
+READS SQL DATA
+
+BEGIN
+    DECLARE v_Data_Validade DATE;
+    SELECT Data_Validade
+    INTO v_Data_Validade
+    FROM ITEM_ESTOQUE
+    WHERE Cod_Prod = p_Cod_Prod
+    LIMIT 1; 
+
+    IF v_Data_Validade <= CURDATE() + INTERVAL p_N DAY THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE; 
+    END IF;
+END //
+
+DELIMITER ;
