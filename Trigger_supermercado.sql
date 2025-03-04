@@ -77,7 +77,7 @@ DELIMITER ;
 
 
 
-#trigger do para qauntidade de funcionarios na filial
+#trigger do para quantidade de funcionarios na filial
 
 
 ###Pode usar como teste
@@ -122,5 +122,21 @@ BEGIN
 END //
 
 DELIMITER ;
+
+##trigger para garantir a atividade do funcionário ao ser adicionado
+
+DELIMITER //
+
+CREATE TRIGGER set_funcionario_ativo 
+BEFORE INSERT ON FUNCIONARIO 
+FOR EACH ROW 
+BEGIN
+    SET NEW.Situação = TRUE;
+END//
+
+DELIMITER ;
+ 
+
+
 
 
