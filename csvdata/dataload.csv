@@ -1,0 +1,129 @@
+MATRIZ
+CNPJ,Telefone,nome_fantasia,tipo
+"12.345.678/0001-99","(11) 9876-5432","Supermercado Estrela","Supermercado"
+"98.765.432/0001-11","(21) 1234-5678","Supermercado Lua","Supermercado"
+
+FILIAL
+ID,CPF_GERENTE,Endereco,Qtde_fun,Cnpj_Matriz
+1,"123.456.789-00","Rua das Flores, 123, Centro, São Paulo, SP",50,"12.345.678/0001-99"
+2,"987.654.321-00","Avenida das Palmeiras, 456, Barra, Rio de Janeiro, RJ",30,"98.765.432/0001-11"
+
+FUNCIONARIO
+CPF,id_Filial,Data_admissao,Sexo,Estado_Civil,Login,Senha,RG,Nome,Situação,Endereco
+"123.456.789-00",1,"2020-01-15","M","Solteiro","joao.silva","senha123","1234567890","João Silva",1,"Rua das Flores, 123, Centro, São Paulo, SP"
+"987.654.321-00",2,"2019-05-20","F","Casado","maria.oliveira","senha456","0987654321","Maria Oliveira",1,"Avenida das Palmeiras, 456, Barra, Rio de Janeiro, RJ"
+
+FORNECEDOR
+Cod,NomeFornecedor,CNPJ,Telefone,Ativo,Rua,Bairro,CEP,Estado
+1,"Fornecedor Alpha","11.111.111/0001-11","(11) 1111-1111",1,"Rua dos Fornecedores, 123","Centro","01000-000","SP"
+2,"Fornecedor Beta","22.222.222/0001-22","(22) 2222-2222",1,"Avenida dos Fornecedores, 456","Barra","20000-000","RJ"
+
+CLIENTE
+CPF,P_nome,M_nome,U_nome,RG,Telefone,CEP,Numero,Cidade,Descricao,DataNascimento,Email,DataCadastro,Senha,Vl_credito,id_filial
+"111.222.333-44","Carlos","Eduardo","Silva","112223334","(11) 9999-8888","01000-000","123","São Paulo","Cliente VIP","1985-05-10","carlos.silva@email.com","2021-01-01","senha123",1000.00,1
+"222.333.444-55","Ana","Clara","Santos","223334445","(21) 8888-7777","20000-000","456","Rio de Janeiro","Cliente Regular","1990-08-15","ana.santos@email.com","2021-02-01","senha456",500.00,2
+
+PRODUTO_REF
+Cod,Id_Unidade,Id_Marca,Id_SubCateg,cod_Fornecedor,Preco_por_tabela,Cod_barra,Freq_pedido,Qtd_estoque,Descricao,Qtd_min,Preco_ult_compra
+1,1,1,1,1,10.50,"7891234567890",30,100,"Arroz Integral",20,9.50
+2,2,2,2,2,5.75,"7891234567891",20,200,"Feijão Carioca",50,5.00
+
+ESTOQUE
+id_estoque,id_Filial,descricao,dt_ult_Entrada
+1,1,"Estoque Principal","2023-10-01"
+2,2,"Estoque Secundário","2023-10-05"
+
+ITEM_ESTOQUE
+Id_Estoque,Cod_Prod,Data_Validade,Data_Fabricacao,Data_Entrada,Valor_Compra,qtd_atual,qtd_min
+1,1,"2024-10-01","2023-09-01","2023-10-01",9.50,80,20
+2,2,"2024-10-05","2023-09-05","2023-10-05",5.00,150,50
+
+COMPRA
+Cod,Seq_Entrega,Valor_Total,Data_Compra,Valor_Total_Desconto,Status_Compra,CPF_Cliente
+1,1,50.00,"2023-10-10",45.00,"Pago","111.222.333-44"
+2,2,30.00,"2023-10-15",25.00,"Aguardando","222.333.444-55"
+
+ITEMCOMPRA
+Cod_compra,Cod_produto,Quantidade,Valor_desconto_item,Valor_unitario
+1,1,5,0.50,10.00
+2,2,10,0.25,5.50
+
+ENTREGA
+Seq,CPF_Entregador,Data_Entrega,Hora_Estimada
+1,"123.456.789-00","2023-10-10","14:00:00"
+2,"987.654.321-00","2023-10-15","15:00:00"
+
+PEDIDO_FORNECEDOR
+Cod,CPF_gerente,Total_desconto,Valor_total_IPI,Valor_total,Data_Pedido_Forncedor,Status_Pedido_Forncedor,Valor_frete
+1,"123.456.789-00",5.00,2.00,100.00,"2023-10-01",1,10.00
+2,"987.654.321-00",3.00,1.50,50.00,"2023-10-05",1,5.00
+
+FATURA
+id,cod_Pedido_Fornecedor,dt_venc,vl_pago_atual,vl_total_final,dt_emissao,status_fatura,dt_paga,multa
+1,1,"2023-11-01",50.00,100.00,"2023-10-01",1,"2023-10-15",0.00
+2,2,"2023-11-05",25.00,50.00,"2023-10-05",0,NULL,0.00
+
+PAGAMENTO
+Cod,id_fatura,cod_compra,cod_tipo_pagamento,vl_pago,data_Pagamento,status_Pagamento
+1,1,1,1,50.00,"2023-10-15",1
+2,2,2,2,25.00,NULL,0
+
+NOTA_FISCAL
+NFE,ICMS,Valor_Total,Valor_Total_Desconto,data_NotaFical,Valor_Frete
+"12345678901234567890",10.00,100.00,5.00,"2023-10-01",10.00
+"09876543210987654321",5.00,50.00,3.00,"2023-10-05",5.00
+
+NOTA_FISCAL_FORNECEDOR
+NFE,cod_pagamento,IPI
+"12345678901234567890",1,2.00
+"09876543210987654321",2,1.50
+
+NOTA_FISCAL_COMPRA
+NFE,cod_pagamento
+"12345678901234567890",1
+"09876543210987654321",2
+
+ITEM_PEDIDO
+Cod_produto_ref,Cod_pedido_fornecedor,Quantidade,Preco_unitario
+1,1,10,9.50
+2,2,20,5.00
+
+UNIDADE_PROD
+Cod,Descricao,Sigla
+1,"Quilograma","kg"
+2,"Litro","L"
+
+MARCA_PROD
+Cod,Descricao
+1,"Marca A"
+2,"Marca B"
+
+CATEGORIA
+Cod,Descricao
+1,"Alimentos"
+2,"Bebidas"
+
+SUBCATEGORIA
+Cod,Cod_Categoria,Descricao
+1,1,"Grãos"
+2,2,"Refrigerantes"
+
+GERENTE
+CPF
+"123.456.789-00"
+"987.654.321-00"
+
+ENTREGADOR
+CPF
+"123.456.789-00"
+"987.654.321-00"
+
+TIPO_PAGAMENTO
+cod,descricao
+1,"Cartão de Crédito"
+2,"Boleto Bancário"
+
+PERDA
+id,data_Perda,Quantidade_perdida,Motivo,Id_Estoque,Cod_Prod
+1,"2023-10-01",5,"Quebra",1,1
+2,"2023-10-05",10,"Vencimento",2,2

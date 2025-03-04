@@ -1,0 +1,3 @@
+Cod,CPF_gerente,Total_desconto,Valor_total_IPI,Valor_total,Data_Pedido_Forncedor,Status_Pedido_Forncedor,Valor_frete
+1,"123.456.789-00",5.00,2.00,100.00,"2023-10-01",1,10.00
+2,"987.654.321-00",3.00,1.50,50.00,"2023-10-05",1,5.00

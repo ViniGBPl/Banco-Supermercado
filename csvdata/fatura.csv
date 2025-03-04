@@ -1,0 +1,3 @@
+id,cod_Pedido_Fornecedor,dt_venc,vl_pago_atual,vl_total_final,dt_emissao,status_fatura,dt_paga,multa
+1,1,"2023-11-01",50.00,100.00,"2023-10-01",1,"2023-10-15",0.00
+2,2,"2023-11-05",25.00,50.00,"2023-10-05",0,NULL,0.00

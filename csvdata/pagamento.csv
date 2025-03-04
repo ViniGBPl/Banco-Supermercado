@@ -1,0 +1,3 @@
+Cod,id_fatura,cod_compra,cod_tipo_pagamento,vl_pago,data_Pagamento,status_Pagamento
+1,1,1,1,50.00,"2023-10-15",1
+2,2,2,2,25.00,NULL,0
