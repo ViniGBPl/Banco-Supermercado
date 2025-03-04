@@ -1,5 +1,4 @@
-
-CREATE VIEW View_Relatorio_Compra_Produtos AS
+CREATE OR REPLACE VIEW View_Relatorio_Compra_Produtos AS
 SELECT  
     COMPRA.Cod AS Codigo_Compra,
     COMPRA.Data_Compra,
@@ -24,21 +23,41 @@ JOIN
 JOIN 
     CATEGORIA ON SUBCATEGORIA.Cod_Categoria = CATEGORIA.Cod;
 
+-- Criação da Stored Procedure
+DROP PROCEDURE IF EXISTS Relatorio_Compra_Produtos_Por_Data;
+
+DELIMITER //
+
+CREATE PROCEDURE Relatorio_Compra_Produtos_Por_Data(
+    IN data_inicio DATE,
+    IN data_fim DATE
+)
+BEGIN
+    SELECT * 
+    FROM View_Relatorio_Compra_Produtos
+    WHERE Data_Compra BETWEEN data_inicio AND data_fim;
+END //
+
+-- Testar a procedure para compras em 2023
+CALL Relatorio_Compra_Produtos_Por_Data('2023-01-01', '2023-12-31');
+
+-- Testar a procedure para compras em 2024
+CALL Relatorio_Compra_Produtos_Por_Data('2024-01-01', '2024-12-31');
 
 
 ###Relatório de PEDIDO_FORNECEDOR por FATURA, TIPO_PAGAMENTO,  NF_FORNECEDOR, E GERENTE
 
-CREATE VIEW View_Relatorio_Pedido_Fornecedor AS
+CREATE OR REPLACE VIEW View_Relatorio_Pedido_Fornecedor AS
 SELECT  
     PEDIDO_FORNECEDOR.Cod,
-    #PEDIDO_FORNECEDOR.Data_Pedido_Fornecedor AS Data_Pedido, -- Corrigido o nome da coluna
+    PEDIDO_FORNECEDOR.Data_Pedido_Fornecedor AS Data_Pedido,
     PEDIDO_FORNECEDOR.Valor_total,
     FATURA.id,
     FATURA.dt_venc,
     FATURA.vl_total_final,
     TIPO_PAGAMENTO.descricao,
     NOTA_FISCAL_FORNECEDOR.NFE,
-    PEDIDO_FORNECEDOR.CPF_gerente
+    FUNCIONARIO.Nome AS Nome_Gerente -- Adicionado o nome do gerente
 FROM 
     PEDIDO_FORNECEDOR
 LEFT JOIN 
@@ -50,7 +69,9 @@ LEFT JOIN
 LEFT JOIN 
     NOTA_FISCAL_FORNECEDOR ON PAGAMENTO.cod = NOTA_FISCAL_FORNECEDOR.cod_pagamento
 LEFT JOIN 
-    GERENTE ON PEDIDO_FORNECEDOR.CPF_gerente = GERENTE.CPF;
+    GERENTE ON PEDIDO_FORNECEDOR.CPF_gerente = GERENTE.CPF
+LEFT JOIN 
+    FUNCIONARIO ON GERENTE.CPF = FUNCIONARIO.CPF; -- Relacionamento corrigido
 
 
 ##Relatório de PRODUTOS e suas AVARIAS em ESTOQUE parametrizado  por 2 datas do período e o código do ESTOQUE
@@ -99,7 +120,7 @@ DELIMITER ;
 ## Relatório proposto 
 
 
-CREATE VIEW View_Relatorio_Vendas_Produto AS
+CREATE OR REPLACE VIEW View_Relatorio_Vendas_Produto AS
 SELECT 
     COMPRA.Cod AS Codigo_Compra,
     COMPRA.Data_Compra,
@@ -116,8 +137,6 @@ INNER JOIN
 INNER JOIN 
     CLIENTE ON COMPRA.CPF_Cliente = CLIENTE.CPF; -- Corrigido para CPF_Cliente
 
-
-SELECT * FROM View_Relatorio_Compra_Produtos;
 
 SELECT * FROM View_Relatorio_Pedido_Fornecedor;
 
