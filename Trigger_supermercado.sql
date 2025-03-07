@@ -116,5 +116,21 @@ BEGIN
     WHERE ID = OLD.id_Filial;
 END //
 
+
+
+
+    # Para a trigger item 2 . Opcional 
+
+DELIMITER //
+
+CREATE TRIGGER set_funcionario_ativo 
+BEFORE INSERT ON FUNCIONARIO 
+FOR EACH ROW 
+BEGIN
+    SET NEW.Situação = TRUE;
+END;
+
+DELIMITER ;
+
 DELIMITER ;
 
