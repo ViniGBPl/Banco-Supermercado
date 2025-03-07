@@ -26,17 +26,17 @@ SET DEFAULT ROLE ENTREGADOR TO 'entrega.teste'@'%';
 SET DEFAULT ROLE GERENTE TO 'carlos.oliveira'@'%';
 
 
-#definição de privilegios 
+#definição de privilegios
 
 ##PARA O GERENTE####
 
-# O gerente vai ter acesso a todos o funcionários 
+# O gerente vai ter acesso a todos o funcionários
 Grant select, insert, update, delete on supermercado.funcionario to GERENTE;
 GRANT SELECT, INSERT, UPDATE, DELETE ON Supermercado.gerente TO GERENTE;
 Grant Select, Insert, Update, delete on supermercado.entregador to GERENTE;
 
 
-# Para o gerente se gereniciar outros , seria tipo um chefe geral 
+# Para o gerente se gereniciar outros , seria tipo um chefe geral
 GRANT SELECT, INSERT, UPDATE, DELETE ON Supermercado.gerente TO GERENTE;
 
 
@@ -52,7 +52,7 @@ Grant select, insert, update on supermercado.compra to GERENTE;
 Grant select, insert, update on supermercado.itemcompra to GERENTE;
 Grant select, insert, update on supermercado.cliente to GERENTE;
 
-#Para o fornecedor 
+#Para o fornecedor
 Grant select , insert, update on supermercado.fornecedor to GERENTE;
 Grant select, insert, update on supermercado.pedido_fornecedor to GERENTE;
 
@@ -67,7 +67,7 @@ Grant select, update(Data_Entrega,Hora_Estimada) on supermercado.entrega to ENTR
 
 #Visualizar dados da entrega para o entregador
  Grant select on supermercado.compra to ENTREGADOR;
- 
+
  #Ver o endereço do cliente e outra informação que ajudem a identificar a pessoa
  Grant select on supermercado.cliente to ENTREGADOR;
 
@@ -75,12 +75,12 @@ Grant select, update(Data_Entrega,Hora_Estimada) on supermercado.entrega to ENTR
 
 #Para visualizar e editar os próprios dados
 Grant insert,select, update(Email,Cpf, Senha, Telefone, CEP, Numero,Cidade, Descricao) on supermercado.cliente to CLIENTE;
- 
- #Para realizar Compras e Visualizar o histório de compras 
+
+ #Para realizar Compras e Visualizar o histório de compras
  Grant select,insert on supermercado.compra to CLIENTE;
  Grant select,insert on supermercado.itemcompra to CLIENTE;
- 
- #Precisa ver qual logica vai ser feita para o cliente visualizar apenas a sua compra 
+
+ #Precisa ver qual logica vai ser feita para o cliente visualizar apenas a sua compra
 
 SHOW GRANTS FOR 'carlos.silva'@'%';
 SHOW GRANTS FOR 'carlos.oliveira'@'%';
